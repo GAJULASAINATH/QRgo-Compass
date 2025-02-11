@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const adminRoutes = require("./routes/adminRoutes");
 const marinerRoutes = require("./routes/marinerRoutes");
 const shipmentRoutes = require("./routes/shipmentRoutes");
+const jwtAuthenticator = require("./middlewares/jwtAuthenticator");
 
 const app = express();
 app.use(express.json());
@@ -21,9 +22,12 @@ const serverAndDatabaseConnection = async () => {
 
     console.log("Database connected Successfully!!");
 
+    //UNPROTEDTED ROUTES
     app.use("/api/admins", adminRoutes);
     app.use("/api/mariners", marinerRoutes);
-    app.use("/api/shipments", shipmentRoutes);
+
+    //PROTECTED ROUTES
+    app.use("/api/shipments", jwtAuthenticator, shipmentRoutes);
 
     app.listen(port, () => {
       console.log(`Server is running at http://localhost:${port}/`);

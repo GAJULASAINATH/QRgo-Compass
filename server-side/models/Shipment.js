@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const { shipmentDB } = require("../dbConnections/db");
 const shipmentSchema = new mongoose.Schema({
   shipmentId: { type: String, required: true, unique: true },
   containerId: { type: String, required: true },
@@ -16,4 +16,4 @@ const shipmentSchema = new mongoose.Schema({
   ]
 });
 
-module.exports = mongoose.model('Shipment', shipmentSchema);
+module.exports = shipmentDB.model('Shipment', shipmentSchema);

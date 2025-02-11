@@ -1,29 +1,73 @@
-// Controller functions for shipment
+const Shipment = require("../models/Shipment");
 
-// Get all shipment
-const getAllShipment = (req, res) => {
-  res.send("Fetching all shipment...");
+// CREATE Shipment
+exports.createShipment = async (req, res) => {
+  try {
+    const newShipment = new Shipment(req.body);
+    await newShipment.save();
+    res.status(201).json({
+      message: "Shipment created successfully!",
+      shipment: newShipment,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// Create a new shipment
-const createShipment = (req, res) => {
-  res.send("Creating a new shipment...");
+// GET All Shipments
+exports.getAllShipments = async (req, res) => {
+  try {
+    const shipments = await Shipment.find();
+    res.status(200).json(shipments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// Update an shipment
-const updateShipment = (req, res) => {
-  res.send(`Updating shipment with ID: ${req.params.id}`);
+// GET Shipment by ID
+exports.getShipmentById = async (req, res) => {
+  try {
+    const shipment = await Shipment.findOne({ shipmentId: req.params.id });
+    if (!shipment) {
+      return res.status(404).json({ message: "Shipment not found!" });
+    }
+    res.status(200).json(shipment);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// Delete an shipment
-const deleteShipment = (req, res) => {
-  res.send(`Deleting shipment with ID: ${req.params.id}`);
+// UPDATE Shipment
+exports.updateShipment = async (req, res) => {
+  try {
+    const updatedShipment = await Shipment.findOneAndUpdate(
+      { shipmentId: req.params.id },
+      req.body,
+      { new: true }
+    );
+    if (!updatedShipment) {
+      return res.status(404).json({ message: "Shipment not found!" });
+    }
+    res.status(200).json({
+      message: "Shipment updated successfully!",
+      shipment: updatedShipment,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// Export the functions
-module.exports = {
-  getAllShipment,
-  createShipment,
-  updateShipment,
-  deleteShipment,
+// DELETE Shipment
+exports.deleteShipment = async (req, res) => {
+  try {
+    const deletedShipment = await Shipment.findOneAndDelete({
+      shipmentId: req.params.id,
+    });
+    if (!deletedShipment) {
+      return res.status(404).json({ message: "Shipment not found!" });
+    }
+    res.status(200).json({ message: "Shipment deleted successfully!" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
