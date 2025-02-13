@@ -1,15 +1,22 @@
 const mongoose = require("mongoose");
 
-const adminDB = mongoose.createConnection(process.env.MONGO_URI, {
-  dbName: "adminDB",
-});
+const connectDB = async () => {
+  try {
+    if (mongoose.connection.readyState === 1) {
+      console.log("MongoDB already connected");
+      return;
+    }
 
-const marinerDB = mongoose.createConnection(process.env.MONGO_URI, {
-  dbName: "marinerDB",
-});
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("Database connected Successfully!!");
+  } catch (error) {
+    console.error(`MongoDB connection error: ${error.message}`);
+    process.exit(1);
+  }
+};
 
-const shipmentDB = mongoose.createConnection(process.env.MONGO_URI, {
-  dbName: "shipmentDB",
-});
+const adminDB = mongoose.connection.useDb("adminDB");
+const marinerDB = mongoose.connection.useDb("marinerDB");
+const shipmentDB = mongoose.connection.useDb("shipmentDB");
 
-module.exports = { adminDB, marinerDB, shipmentDB };
+module.exports = { connectDB, adminDB, marinerDB, shipmentDB };

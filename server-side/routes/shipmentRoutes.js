@@ -17,4 +17,7 @@ router.put("/:id", shipmentController.updateShipment);
 // DELETE a shipment by ID
 router.delete("/:id", shipmentController.deleteShipment);
 
+//UPDATE-LOCATION API
+router.put("/update-location", shipmentController.updateShipmentLocation);
+
 module.exports = router;

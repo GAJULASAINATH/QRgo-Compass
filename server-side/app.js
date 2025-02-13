@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 //rotutes
+const { connectDB } = require("./dbConnections/db");
 const adminRoutes = require("./routes/adminRoutes");
 const marinerRoutes = require("./routes/marinerRoutes");
 const shipmentRoutes = require("./routes/shipmentRoutes");
@@ -16,11 +17,7 @@ const port = process.env.PORT || 3000;
 
 const serverAndDatabaseConnection = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      dbName: "adminDB",
-    });
-
-    console.log("Database connected Successfully!!");
+    await connectDB();
 
     //UNPROTEDTED ROUTES
     app.use("/api/admins", adminRoutes);

@@ -1,19 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { shipmentDB } = require("../dbConnections/db");
-const shipmentSchema = new mongoose.Schema({
+
+const ShipmentSchema = new mongoose.Schema({
   shipmentId: { type: String, required: true, unique: true },
   containerId: { type: String, required: true },
   route: { type: String, required: true },
-  currentLocation: { type: String },
-  ETA: { type: Date },
-  status: { type: String, enum: ['In Transit', 'Delivered', 'Delayed'], default: 'In Transit' },
-  qrScanHistory: [
+  currentLocation: {
+    latitude: { type: Number },
+    longitude: { type: Number },
+  },
+  ETA: { type: String },
+  status: {
+    type: String,
+    enum: ["In Transit", "Delivered", "Pending"],
+    default: "In Transit",
+  },
+  checkpoints: [
     {
-      scannedAt: { type: Date, default: Date.now },
-      location: String,
-      scannedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Mariner' }
-    }
-  ]
+      checkpointId: { type: String, required: true }, // ✅ Now required
+      latitude: Number,
+      longitude: Number,
+      timestamp: { type: Date, default: Date.now },
+      qrCodeURL: { type: String, required: true }, // ✅ Added and required
+    },
+  ],
 });
 
-module.exports = shipmentDB.model('Shipment', shipmentSchema);
+module.exports = shipmentDB.model("Shipment", ShipmentSchema);
