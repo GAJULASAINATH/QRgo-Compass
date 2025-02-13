@@ -11,13 +11,13 @@ router.get("/", shipmentController.getAllShipments);
 // GET a specific shipment by ID
 router.get("/:id", shipmentController.getShipmentById);
 
+//UPDATE-LOCATION API
+router.put("/update-location", shipmentController.updateShipmentLocation);
+
 // UPDATE a shipment by ID
 router.put("/:id", shipmentController.updateShipment);
 
 // DELETE a shipment by ID
 router.delete("/:id", shipmentController.deleteShipment);
-
-//UPDATE-LOCATION API
-router.put("/update-location", shipmentController.updateShipmentLocation);
 
 module.exports = router;

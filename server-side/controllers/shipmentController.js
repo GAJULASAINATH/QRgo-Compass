@@ -2,63 +2,6 @@ const Shipment = require("../models/Shipment");
 const { generateQRCodesForShipment } = require("../utils/qrGenerator");
 
 // CREATE Shipment
-// exports.createShipment = async (req, res) => {
-//   try {
-//     console.log("Received request to create shipment:", req.body);
-
-//     const { containerId, route, numCheckpoints } = req.body;
-//     if (!containerId || !numCheckpoints) {
-//       return res
-//         .status(400)
-//         .json({ error: "containerId and numCheckpoints are required" });
-//     }
-
-//     // Generate a unique shipment ID (only once)
-//     const shipmentId = `SHIP-${Date.now()}`;
-
-//     // Create shipment with initial details (checkpoints empty)
-//     const newShipment = new Shipment({
-//       shipmentId,
-//       containerId,
-//       route,
-//       status: "In Transit",
-//       checkpoints: [],
-//       qrScanHistory: [], // if needed
-//     });
-
-//     console.log("Saving shipment to DB...");
-//     await newShipment.save();
-//     console.log("Shipment saved:", newShipment);
-
-//     console.log("Generating QR codes...");
-//     const qrCodes = await generateQRCodesForShipment(
-//       shipmentId,
-//       numCheckpoints
-//     );
-//     console.log("Generated QR codes:", qrCodes);
-
-//     // Update checkpoints with QR codes
-//     newShipment.checkpoints = qrCodes.map((qr, index) => ({
-//       checkpointId: qr.checkpointId,
-//       checkpointName: `Checkpoint ${index + 1}`,
-//       latitude: null,
-//       longitude: null,
-//       isScanned: false,
-//       scannedAt: null,
-//       qrCode: qr.qrCodeURL,
-//     }));
-
-//     console.log("Updating shipment with checkpoints...");
-//     await newShipment.save();
-//     console.log("Final Shipment Data:", newShipment);
-
-//     // Respond with the full shipment document (including _id, shipmentId, containerId, checkpoints, etc.)
-//     res.status(201).json(newShipment);
-//   } catch (error) {
-//     console.error("Error creating shipment:", error);
-//     res.status(500).json({ error: error.message });
-//   }
-// };
 exports.createShipment = async (req, res) => {
   try {
     console.log("Received request to create shipment:", req.body);
