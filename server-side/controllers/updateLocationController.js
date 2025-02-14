@@ -1,5 +1,6 @@
 const Shipment = require("../models/Shipment");
 
+//UPDATE-LOCATION OF SHIPMENT AT EACH CHECKPOINT (CORE API)
 exports.updateShipmentLocation = async (req, res) => {
   console.log("updateShipmentLocation API called bro!!!");
   console.log("Received request body:", req.body); // 🔍 Log the full body

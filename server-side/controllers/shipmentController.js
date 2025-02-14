@@ -1,7 +1,7 @@
 const Shipment = require("../models/Shipment");
 const { generateQRCodesForShipment } = require("../utils/qrGenerator");
 
-// CREATE Shipment
+// CREATE Shipment(core api)
 exports.createShipment = async (req, res) => {
   try {
     console.log("Received request to create shipment:", req.body);
@@ -92,7 +92,6 @@ exports.getShipmentById = async (req, res) => {
 
 // UPDATE Shipment error location
 exports.updateShipment = async (req, res) => {
-  console.log("updateshipmentLocation api called bro louda!!!");
   try {
     const updatedShipment = await Shipment.findOneAndUpdate(
       { shipmentId: req.params.id },
