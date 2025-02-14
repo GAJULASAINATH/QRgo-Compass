@@ -2,19 +2,9 @@ const Shipment = require("../models/Shipment");
 
 //UPDATE-LOCATION OF SHIPMENT AT EACH CHECKPOINT (CORE API)
 exports.updateShipmentLocation = async (req, res) => {
-  console.log("updateShipmentLocation API called bro!!!");
-  console.log("Received request body:", req.body); // 🔍 Log the full body
-
   try {
     const { shipmentId, checkpointId, latitude, longitude, qrCodeURL } =
       req.body;
-    console.log("Extracted:", {
-      shipmentId,
-      checkpointId,
-      latitude,
-      longitude,
-      qrCodeURL,
-    }); // ✅ Log extracted data
 
     if (!shipmentId || !checkpointId || !latitude || !longitude || !qrCodeURL) {
       return res.status(400).json({ error: "Missing required fields" });
@@ -33,7 +23,7 @@ exports.updateShipmentLocation = async (req, res) => {
       latitude,
       longitude,
       timestamp: new Date(),
-      qrCodeURL, // ✅ Ensure it's received
+      qrCodeURL,
     });
 
     await shipment.save();
