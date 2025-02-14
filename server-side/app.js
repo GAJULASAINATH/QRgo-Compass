@@ -8,6 +8,7 @@ const { connectDB } = require("./dbConnections/db");
 const adminRoutes = require("./routes/adminRoutes");
 const marinerRoutes = require("./routes/marinerRoutes");
 const shipmentRoutes = require("./routes/shipmentRoutes");
+const updateLocationRoutes = require("./routes/updateLocationRoutes");
 const jwtAuthenticator = require("./middlewares/jwtAuthenticator");
 
 const app = express();
@@ -25,6 +26,7 @@ const serverAndDatabaseConnection = async () => {
 
     //PROTECTED ROUTES
     app.use("/api/shipments", jwtAuthenticator, shipmentRoutes);
+    app.use("/api/update-location", jwtAuthenticator, updateLocationRoutes);
 
     app.listen(port, () => {
       console.log(`Server is running at http://localhost:${port}/`);

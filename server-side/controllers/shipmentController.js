@@ -90,48 +90,6 @@ exports.getShipmentById = async (req, res) => {
   }
 };
 
-// UPDATE LOCATION API
-exports.updateShipmentLocation = async (req, res) => {
-  console.log("updateshipmentLocation api called bro!!!");
-  try {
-    const { shipmentId, checkpointId, latitude, longitude } = req.body;
-    console.log("Received shipmentId:", shipmentId);
-
-    if (!shipmentId || !checkpointId || !latitude || !longitude) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    const shipment = await Shipment.findOne({ shipmentId });
-
-    if (!shipment) {
-      return res.status(404).json({ error: "Shipment not found" });
-    }
-
-    // Update current location
-    shipment.currentLocation = {
-      latitude,
-      longitude,
-    };
-
-    // Add checkpoint to shipment history
-    shipment.checkpoints.push({
-      checkpointId,
-      latitude,
-      longitude,
-      timestamp: new Date(),
-    });
-
-    await shipment.save();
-
-    return res
-      .status(200)
-      .json({ message: "Location updated successfully", shipment });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
 // UPDATE Shipment error location
 exports.updateShipment = async (req, res) => {
   console.log("updateshipmentLocation api called bro louda!!!");
